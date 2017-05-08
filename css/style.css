@@ -86,14 +86,6 @@ input[type=submit] {
     margin-top: 20px;
 }
 
-#blog_btns {
-    text-align: right;
-    padding-right: 24px;
-    padding-left: 24px;
-    padding-top: 8px;
-    padding-bottom: 8px;
-}
-
 /*Post Page*/
 .post-heading {
     position: relative;
@@ -128,13 +120,22 @@ input[type=submit] {
     margin-top: 5px;
     text-align: left;
 }
-#post_btns{
-    text-align: right;
+
+.delete-btns{
+    margin: auto;
+    max-width: 150px;
+
+
+}
+
+.btns_right_float{
+    float: right;
 }
 
 .center{
     margin: auto;
     width: 50%;
+    
 }
 
 /*Footer*/

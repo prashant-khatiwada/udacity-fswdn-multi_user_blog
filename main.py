@@ -131,33 +131,11 @@ class EditPost(Handler):
             self.error(404)
             return
 
-	def post(self, post_id):
-		subject = self.request.get('subject')
+    def post(self, post_id):
+        subject = self.request.get('subject')
         content = self.request.get('content')
     
-        # if subject and content:
-        #     # make key that retreives the entity/row from the Database
-        #     update_value = Post.get_by_id(int(post_id), parent=blog_key())
-        #     if update_value:
-        #         # modifying the properties of the entity
-        #         update_value.subject = subject
-        #         update_value.content = content
-        #         # storing it back
-        #         update_value.put()
-        #         # redirecting to the newly updated page
-        #         x = srt(update_value.key().id())
-        #         self.redirect('/blog/x', post = post )
-        #     else:
-        #         return self.error(404)
-        # else:
-        #     error = "Update your subject and content, please"
-        #     self.render(
-        #         "editpost.html",
-        #         subject=subject,
-        #         content=content,
-        #         error=error)
-
-        if "submit" in self.request.POST:
+        if "update" in self.request.POST:
             if subject and content:
                 # make key that retreives the entity/row from the Database
                 update_value = Post.get_by_id(int(post_id), parent=blog_key())
@@ -168,21 +146,42 @@ class EditPost(Handler):
                     # storing it back
                     update_value.put()
                     # redirecting to the newly updated page
-                    x = srt(update_value.key().id())
-                    self.redirect('/blog/x')
+                    self.redirect('/blog/%s' % str(update_value.key().id()))
                 else:
                     return self.error(404)
             else:
                 error = "Update your subject and content, please"
-                self.render(
-                    "editpost.html",
-                    subject=subject,
-                    content=content,
-                    error=error)
+                key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+                post = db.get(key)
+                self.render("editpost.html", post = post)
+        if "cancel" in self.request.POST:
+            update_value = Post.get_by_id(int(post_id), parent=blog_key())   
+            self.redirect('/blog/%s' % str(update_value.key().id()))
 
 
 # Handler Class for Deleting Specific Post
-# UNDER CONSTRUCTION
+class DeletePost(Handler):
+    def get(self, post_id):
+        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+        post = db.get(key)
+        if post:
+            self.render("deletepost.html", post = post)
+        else:
+            self.error(404)
+            return
+
+    def post(self, post_id):
+        if "delete-post" in self.request.POST:
+            delete_value = Post.get_by_id(int(post_id), parent=blog_key())
+            if delete_value:
+                delete_value.delete()
+                return self.redirect("/blog")
+            else:
+                return self.error(404)
+
+        if "cancel-delete" in self.request.POST:
+            return self.redirect("/blog")
+
 
 
 ### User Validation
@@ -252,6 +251,7 @@ app = webapp2.WSGIApplication([('/', MainPage),
                                ('/welcome', Welcome),
                                ('/blog/?', BlogFront),
                                ('/blog/editpost/([0-9]+)', EditPost),
+                               ('/blog/deletepost/([0-9]+)', DeletePost),
                                ('/blog/([0-9]+)', PostPage),
                                ('/blog/newpost', NewPost),
                                ],debug=True)
