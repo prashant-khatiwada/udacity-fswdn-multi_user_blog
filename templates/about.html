@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}About - Multi User Blog{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<h1>About</h1>
+	</div>
+	<div class="col-md-12 about center">
+		<h3>Step 1: Create a Basic Blog</h3>
+		<p> Blog must include the following features: 
+			<ul>
+				<li>Front page that lists blog posts.</li>
+				<li>A form to submit new entries.
+				</li>
+				<li>Blog posts have their own page.
+				</li> 
+			</ul> 
+		</p>	
+		
+		<h3>Step 2: Add User Registration</h3>
+		<ul>
+			<li>Have a registration form that validates user input, and displays the error(s) when necessary.</li>
+			<li>After a successful registration, a user is directed to a welcome page with a greeting, “Welcome, [User]” where [User] is a name set in a cookie.
+			</li>
+			<li>If a user attempts to visit the welcome page without being signed in (without having a cookie), then redirect to the Signup page.
+			</li>
+			<li>Store passwords securely.</li> 
+		</ul> 
+		<h3>Step 3: Add Login</h3>
+		<ul>
+			<li>Have a login form that validates user input, and displays the error(s) when necessary.</li>
+			<li>After a successful login, the user is directed to the same welcome page from Step 2.</li>
+		</ul>
+		
+		<h3>Step 4: Add Logout</h3>
+		<ul>
+			<li>Have a logout form that validates user input, and displays the error(s) when necessary.</li>
+			<li>After logging out, the cookie is cleared and user is redirected to the Signup page from Step 2.</li>
+		</ul>
+		<h3>Step 5: Add Other Features on Your Own</h3>
+		<ul>
+			<li>Users should only be able to edit/delete their posts. They receive an error message if they disobey this rule.</li>
+			<li>Users can like/unlike posts, but not their own. They receive an error message if they disobey this rule.</li>
+			<li>Users can comment on posts. They can only edit/delete their own posts, and they should receive an error message if they disobey this rule.</li>
+		</ul>
+		<h3>Step 6: Final Touches</h3>
+		<ul>
+			<li>Create a README.md file explaining how to run your code.</li>
+			<li>Refactor your code so it is well structured, well commented, and conforms to the Python Style Guide.</li>
+			<li>Make sure your project conforms to the rubric.</li>
+			<li>Deploy your app to appspot.com using gcloud app deploy.</li>
+			<li>Submit your project.</li>
+		</ul>
+	</div>
+</div>
+
+
+
+
+
+
+{% endblock %}

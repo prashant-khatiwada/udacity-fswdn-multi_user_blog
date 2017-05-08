@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block title %}Getting Started{% endblock %}
+{% block navbar %}
+<li><a href="/" data-scroll>Home</a></li>
+<li><a href="/about" data-scroll>About</a></li>
+<li><a href="/blog" data-scroll>Blog</a></li>
+{% endblock %}
+
+
+{% block content %}
+
+<h1>Signup</h1>
+<div class="container-fluid"> 
+  <form class="form-horizontal" method="post">
+    <!-- First Name-->
+    <div class="form-group">
+      <label class="col-md-4 control-label label signup_label" for="firstname">First Name</label>  
+      <div class="col-md-4">
+        <input name="firstname" placeholder="Insert your First Name" class="form-control input-md" type="text" value="{{firstname}}">
+        <div class="error">{{error_firstname}} </div>  
+      </div>
+    </div>
+    <!-- Last Name-->
+    <div class="form-group">
+      <label class="col-md-4 control-label label signup_label" for="lastname">Last Name</label>  
+      <div class="col-md-4">
+        <input name="lastname" placeholder="Insert your Last Name" class="form-control input-md" type="text" value="{{lastname}}">
+        <div class="error">{{error_lastname}} </div>  
+      </div>
+    </div>
+    <!-- Username-->
+    <div class="form-group">
+      <label class="col-md-4 control-label label signup_label" for="username">Username</label>  
+      <div class="col-md-4">
+        <input name="username" placeholder="Insert your Desired Username"  class="form-control input-md" type="text" value="{{username}}">
+        <div class="error">{{error_username}} </div>   
+      </div>
+    </div>
+    <!-- Email-->
+    <div class="form-group">
+      <label class="col-md-4 control-label label signup_label" for="email">Email</label>  
+      <div class="col-md-4">
+        <input name="email" placeholder="Insert your Email (optional)" class="form-control input-md" type="text" value="{{email}}">
+        <div class="error">{{error_email}} </div>  
+      </div>
+    </div>
+    <!-- Password -->
+    <div class="form-group">
+      <label class="col-md-4 control-label label signup_label" for="password">Password</label>  
+      <div class="col-md-4">
+        <input name="password" placeholder="Insert your Password" class="form-control input-md" type="password" value="">
+        <div class="error">{{error_password}} </div> 
+      </div>
+    </div>
+    <!-- Confirm Password-->
+    <div class="form-group">
+      <label class="col-md-4 control-label label signup_label" for="verify">Confirm Password</label>  
+      <div class="col-md-4">
+        <input name="verify" placeholder="Confirm your Password" class="form-control input-md" type="password" value="">
+        <span class="help-block error">{{error_verify}}</span>
+        <div class="error">{{error_verify}} </div>  
+      </div>
+    </div>
+    <!-- Buttons -->
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-md-4 empty">
+        </div>
+        <div class="col-md-4">
+          <input class="btn btn-md" type="submit">
+        </div>
+      </div>
+    </div>
+
+<div class="error">{{error_verify}} </div>
+
+    <!-- <table>
+      <tr>
+        <td class="label">
+          Username
+        </td>
+        <td>
+          <input type="text" name="username" value="{{username}}">
+        </td>
+        <td class="error">
+          {{error_username}}
+        </td>
+      </tr>
+
+      <tr>
+        <td class="label">
+          Password
+        </td>
+        <td>
+          <input type="password" name="password" value="">
+        </td>
+        <td class="error">
+          {{error_password}}
+        </td>
+      </tr>
+
+      <tr>
+        <td class="label">
+          Verify Password
+        </td>
+        <td>
+          <input type="password" name="verify" value="">
+        </td>
+        <td class="error">
+          {{error_verify}}
+        </td>
+      </tr>
+
+      <tr>
+        <td class="label">
+          Email (optional)
+        </td>
+        <td>
+          <input type="text" name="email" value="{{email}}">
+        </td>
+        <td class="error">
+          {{error_email}}
+        </td>
+      </tr>
+    </table>
+    <input type="submit"> -->
+    
+  </form>
+</div>
+{% endblock %}

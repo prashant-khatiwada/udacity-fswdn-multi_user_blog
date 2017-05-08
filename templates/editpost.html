@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="rows">
+  <div class="col-md-12">
+    <h1>Edit Post</h1>
+  </div>
+  <div class="col-md-12">
+    <form method="post">
+      <div class="col-md-12 form-group">
+          <label for="Subject">Subject</label>
+          <input type="text" class="form-control" name="subject" value="{{post.subject}}" id="Subject">
+      </div>
+      <div class="col-md-12">
+        <div class="textedit_btns">
+          <div class="btn-group" >
+            <a  type="button" class="btn btn-default btn-sm" title="Bold" href="#">B</a>
+            <a  type="button" class="btn btn-default btn-sm" title="Italics" href="#">I</a>
+            <a  type="button" class="btn btn-default btn-sm" title="Underline" href="#">U</a>
+            <a  type="button" class="btn btn-default btn-sm" title="Hyperlink" href="#">&#128279;</a>
+          </div>
+          <div class="btn-group" >
+            <a  type="button" class="btn btn-default btn-sm" title="Bullet List" href="#">&#9776;</a>
+            <a  type="button" class="btn btn-default btn-sm" title="Numbered List" href="#">&#9776;</a>
+            <a  type="button" class="btn btn-default btn-sm" title="Preformatted Text" href="#">Preformatted Text</a>
+            <a  type="button" class="btn btn-default btn-sm" title="Emoji" href="#">&#9786;</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12 form-group">
+          <label for="content">Body</label>
+          <textarea class="form-control" name="content" rows="5" id="content">{{post.content}}</textarea>
+      </div>
+      <div class="error">{{error}}</div>
+      <div class="col-md-12">
+        <div  class="center btn-group">
+          <input class="btn btn-default btn-sm" type="submit" name="update" value="Update">
+          <!-- <input class="btn btn-danger btn-md" type="submit" name="delete" value="Delete" > -->
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
