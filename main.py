@@ -47,6 +47,7 @@ class About(Handler):
 		self.render("about.html")
 
 ### Database Related Stuff
+# Blog Defination and Class
 # function to store data within a parent (for multiple blog function)
 def blog_key(name = 'default'):
     return db.Key.from_path('blogs', name)
@@ -121,8 +122,7 @@ class NewPost(Handler):
 # Handler Class for Editing Specific Post
 class EditPost(Handler):
     def get(self, post_id):
-    	""" Something similar to def(get) from PostPage 
-        """
+    	### Something similar to def(get) from PostPage 
     	key = db.Key.from_path('Post', int(post_id), parent=blog_key())
         post = db.get(key)
         if post:
@@ -132,15 +132,23 @@ class EditPost(Handler):
             return
 
 	def post(self, post_id):
-		subject = self.request.get('subject')
-        content = self.request.get('content')
-
+		subject = self.request.get('post.subject')
+        content = self.request.get('post.content')
+    
         if subject and content:
-            key = Post.get_by_id(int(post_id), parent=blog_key())
-            key.subject = subject
-            key.subject = content
-            key.put()
-            self.redirect('/blog/%s' % srt(key.key().id()))
+            # make key that retreives the entity/row from the Database
+            update_value = Post.get_by_id(int(post_id), parent=blog_key())
+            if update_value:
+                # modifying the properties of the entity
+                update_value.subject = subject
+                update_value.content = content
+                # storing it back
+                update_value.put()
+                # redirecting to the newly updated page
+                x = srt(update_value.key().id())
+                self.redirect('/blog/x', post = post )
+            else:
+                return self.error(404)
         else:
             error = "Update your subject and content, please"
             self.render(
@@ -150,8 +158,8 @@ class EditPost(Handler):
                 error=error)
 
 
-
 # Handler Class for Deleting Specific Post
+# UNDER CONSTRUCTION
 
 
 ### User Validation
