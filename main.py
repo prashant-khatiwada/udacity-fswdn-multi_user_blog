@@ -132,30 +132,53 @@ class EditPost(Handler):
             return
 
 	def post(self, post_id):
-		subject = self.request.get('post.subject')
-        content = self.request.get('post.content')
+		subject = self.request.get('subject')
+        content = self.request.get('content')
     
-        if subject and content:
-            # make key that retreives the entity/row from the Database
-            update_value = Post.get_by_id(int(post_id), parent=blog_key())
-            if update_value:
-                # modifying the properties of the entity
-                update_value.subject = subject
-                update_value.content = content
-                # storing it back
-                update_value.put()
-                # redirecting to the newly updated page
-                x = srt(update_value.key().id())
-                self.redirect('/blog/x', post = post )
+        # if subject and content:
+        #     # make key that retreives the entity/row from the Database
+        #     update_value = Post.get_by_id(int(post_id), parent=blog_key())
+        #     if update_value:
+        #         # modifying the properties of the entity
+        #         update_value.subject = subject
+        #         update_value.content = content
+        #         # storing it back
+        #         update_value.put()
+        #         # redirecting to the newly updated page
+        #         x = srt(update_value.key().id())
+        #         self.redirect('/blog/x', post = post )
+        #     else:
+        #         return self.error(404)
+        # else:
+        #     error = "Update your subject and content, please"
+        #     self.render(
+        #         "editpost.html",
+        #         subject=subject,
+        #         content=content,
+        #         error=error)
+
+        if "submit" in self.request.POST:
+            if subject and content:
+                # make key that retreives the entity/row from the Database
+                update_value = Post.get_by_id(int(post_id), parent=blog_key())
+                if update_value:
+                    # modifying the properties of the entity
+                    update_value.subject = subject
+                    update_value.content = content
+                    # storing it back
+                    update_value.put()
+                    # redirecting to the newly updated page
+                    x = srt(update_value.key().id())
+                    self.redirect('/blog/x')
+                else:
+                    return self.error(404)
             else:
-                return self.error(404)
-        else:
-            error = "Update your subject and content, please"
-            self.render(
-                "editpost.html",
-                subject=subject,
-                content=content,
-                error=error)
+                error = "Update your subject and content, please"
+                self.render(
+                    "editpost.html",
+                    subject=subject,
+                    content=content,
+                    error=error)
 
 
 # Handler Class for Deleting Specific Post
