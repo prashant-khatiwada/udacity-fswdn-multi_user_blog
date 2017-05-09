@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block navbar %}
+<li><a href="/" data-scroll>Home</a></li>
+<li><a href="/about" data-scroll>About</a></li>
+<li><a href="/blog" data-scroll>Blog</a></li>
+{% endblock %}
+
+{% block content %}
+
+<div>
+  <h1>Login</h1>
+</div>
+<div class="container-fluid"> 
+  <form class="form-horizontal" method="post">
+    <!-- Username-->
+    <div class="form-group">
+      <label class="col-md-4 control-label label signup_label" for="username">Username</label>
+      <div class="col-md-4">
+        <input name="username" placeholder="Insert your Desired Username"  class="form-control input-md" type="text" value="{{username}}">
+        <div class="error">{{error_username}} </div>   
+      </div>
+    </div>
+    <!-- Password -->
+    <div class="form-group">
+      <label class="col-md-4 control-label label signup_label" for="password">Password</label>
+      <div class="col-md-4">
+        <input name="password" placeholder="Insert your Password" class="form-control input-md" type="password" value="">
+        <div class="error">{{error_password}} </div>
+        <br> 
+        <p>New to Blog? <a href="/signup">Signup</a> </p>
+        <div class="error">
+        {{error}}
+      </div>
+      </div>
+    </div>
+    <!-- Buttons -->
+    <div class="col-md-12">
+      <div class="form-group">
+        <div class="col-md-4 empty">
+        </div>
+        <div class="col-md-4">
+          <input class="btn btn-md" type="submit">
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

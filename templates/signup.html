@@ -16,7 +16,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label label signup_label" for="firstname">First Name</label>  
       <div class="col-md-4">
-        <input name="firstname" placeholder="Insert your First Name" class="form-control input-md" type="text" value="{{firstname}}">
+        <input name="firstname" placeholder="Insert your First Name" class="form-control input-md" type="text" value="{{firstname}}" disabled>
         <div class="error">{{error_firstname}} </div>  
       </div>
     </div>
@@ -24,13 +24,13 @@
     <div class="form-group">
       <label class="col-md-4 control-label label signup_label" for="lastname">Last Name</label>  
       <div class="col-md-4">
-        <input name="lastname" placeholder="Insert your Last Name" class="form-control input-md" type="text" value="{{lastname}}">
+        <input name="lastname" placeholder="Insert your Last Name" class="form-control input-md" type="text" value="{{lastname}}" disabled>
         <div class="error">{{error_lastname}} </div>  
       </div>
     </div>
     <!-- Username-->
     <div class="form-group">
-      <label class="col-md-4 control-label label signup_label" for="username">Username</label>  
+      <label class="col-md-4 control-label label signup_label" for="username">Username</label>
       <div class="col-md-4">
         <input name="username" placeholder="Insert your Desired Username"  class="form-control input-md" type="text" value="{{username}}">
         <div class="error">{{error_username}} </div>   
@@ -46,7 +46,7 @@
     </div>
     <!-- Password -->
     <div class="form-group">
-      <label class="col-md-4 control-label label signup_label" for="password">Password</label>  
+      <label class="col-md-4 control-label label signup_label" for="password">Password</label>
       <div class="col-md-4">
         <input name="password" placeholder="Insert your Password" class="form-control input-md" type="password" value="">
         <div class="error">{{error_password}} </div> 
@@ -58,7 +58,8 @@
       <div class="col-md-4">
         <input name="verify" placeholder="Confirm your Password" class="form-control input-md" type="password" value="">
         <span class="help-block error">{{error_verify}}</span>
-        <div class="error">{{error_verify}} </div>  
+        <div class="error">{{error_verify}} </div>
+        <p> Already Registered? <a class="user_call" data-toggle="modal" data-target="#user_login">&#128100;Log In</a> </p>  
       </div>
     </div>
     <!-- Buttons -->
