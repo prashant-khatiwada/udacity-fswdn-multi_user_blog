@@ -116,8 +116,20 @@ def valid_pw(name, password, h):
 
 ### MainPage and About
 class MainPage(Handler):
-  def get(self):
+    def get(self):
       self.render("front.html")
+
+    def post(self):
+        username = self.request.get('username')
+        password = self.request.get('password')
+
+        u = User.login(username, password)
+        if u:
+            self.login(u)
+            self.redirect('/blog')
+        else:
+            msg = 'Invalid Login'
+            self.render('login.html', error = msg)  
 
 class About(Handler):
 	def get(self):
@@ -163,10 +175,11 @@ class User(db.Model):
         ## post = db.get(user_key)
         return User.get_by_id(user_id, parent=users_key())
 
-    @classmethod
+    @classmethod #THIS MAKES THE MEDTHOD STATIC
     # decorator funciton - to call user via user_name key
     # This is the third method to access the database
     def by_name(cls, name):
+        # return User.get_by_id(name, parent=users_key())
         u = User.all().filter('name =', name).get()
         return u
 
@@ -359,34 +372,25 @@ class Signup(Handler):
         if have_error:
             self.render('signup.html', **params)
         else:
-            # This gets redirected to Resigster class [see below]
-            self.done()
+            # look up if the username already exists
+            ## alternate code??## = User.get_by_id(user, parent=users_key())
+            u = User.by_name(self.username)            
+            if u:
+                message = 'Username already exists, Please choose a different username'
+                self.render('signup.html', error_username = message)
+            else:
+                # Resister the User
+                u = User.register(
+                    self.username, 
+                    self.password, 
+                    self.email)
+                # Put the user Object
+                u.put()
+                # Call the Login Function - - Sets the Cookie function
+                self.login(u)
+                self.redirect('/welcome')
 
-    def done(self, *a, **kw):
-        raise NotImplementedError
-
-# User Resgistration Handler
-## Handler Based on Signup Handler which gets the 'self.done'
-class Register(Signup):
-    def done(self):
-        # First - look up if the username already exists
-        u = User.by_name(self.username)
-        if u:
-            message = 'Username already exists, Please choose a different username'
-            self.render('signup.html', error_username=message)
-        else:
-            # Resister the User
-            u = User.register(
-                self.username, 
-                self.password, 
-                self.email)
-            # Put the user Object
-            u.put()
-            # Call the Login Function - - Sets the Cookie function
-            self.login(u)
-            self.redirect('/welcome')
-
-
+            
 # Login Handler
 class Login(Handler):
     def get(self):
@@ -422,7 +426,7 @@ class Welcome(Handler):
 app = webapp2.WSGIApplication([('/', MainPage),
                                ('/about', About),
                                # User Login and Signup
-                               ('/signup', Register),
+                               ('/signup', Signup),
                                ('/login', Login),
                                ('/logout', Logout),
                                ('/welcome', Welcome),
