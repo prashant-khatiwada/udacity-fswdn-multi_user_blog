@@ -1,0 +1,24 @@
+<div>
+	<div class="comment">
+		<div class="comment-heading">
+			<div class="post-date">
+				{{c.created_time.strftime("%Y, %b %d")}}
+			</div>
+			<div class="post-by">
+				Comment by: {{c.author}}
+			</div>
+			<div>
+				{{c.content}}
+			</div>
+			<div>
+				{{c.modified_time}}
+			</div>
+			</div>
+		<div class="comment-content">
+			{{c._render_text | safe}}
+		</div>
+		<div>
+			<a href="/blog/editcomment/{{c.key().id()}}">Modify</a>
+		</div>
+	</div>
+</div>
