@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-
+{% block title %}Edit Post{% endblock %}
+{% block navbar %}
+<li><a href="/logout" data-scroll>Logout</a></li>
+{% endblock %}
 {% block content %}
 <div class="col-md-12" >
 	<div class="btn-group pull-right" id="post_btns">
@@ -9,5 +12,4 @@
 </div>
 
 {{post.render() | safe}}
-
 {% endblock %}

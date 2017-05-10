@@ -1,19 +1,24 @@
 {% extends "base.html" %}
+{% block title %}Blog{% endblock %}
+{% block navbar %}
+<li><a href="/logout" data-scroll>Logout</a></li>
+{% endblock %}
+
 
 {% block content %}
-<div class="row">
-	<div class="col-md-12">
+<div class="text-center">
 	<h1>Blog</h1>
-	</div>
-	<div class="col-md-12" id="blog_btns">
-	 <a  type="button" class="btn btn-default btns_right_float" href="/blog/newpost">New Post</a>
-	 </div>
+	<h3>Welcome back, {{username}}</h3>
 </div>
-  {% for p in posts %}
-    {{ p.render() | safe }}
+<div id="blog_btns">
+	<a  type="button" class="btn btn-default btns_right_float" href="/blog/newpost">New Post</a>
+</div>
+</div>
+{% for p in posts %}
+{{ p.render() | safe }}
 <div>
 	<br> <br>
 </div>
-  {% endfor %}
+{% endfor %}
 
 {% endblock %}

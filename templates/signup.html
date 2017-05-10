@@ -1,10 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Getting Started{% endblock %}
-{% block navbar %}
-<li><a href="/" data-scroll>Home</a></li>
-<li><a href="/about" data-scroll>About</a></li>
-<li><a href="/blog" data-scroll>Blog</a></li>
-{% endblock %}
+
 
 
 {% block content %}
@@ -16,7 +12,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label label signup_label" for="firstname">First Name</label>  
       <div class="col-md-4">
-        <input name="firstname" placeholder="Insert your First Name" class="form-control input-md" type="text" value="{{firstname}}" disabled>
+        <input name="firstname" placeholder="Insert your First Name" class="form-control input-md" type="text" value="{{firstname}}">
         <div class="error">{{error_firstname}} </div>  
       </div>
     </div>
@@ -24,7 +20,7 @@
     <div class="form-group">
       <label class="col-md-4 control-label label signup_label" for="lastname">Last Name</label>  
       <div class="col-md-4">
-        <input name="lastname" placeholder="Insert your Last Name" class="form-control input-md" type="text" value="{{lastname}}" disabled>
+        <input name="lastname" placeholder="Insert your Last Name" class="form-control input-md" type="text" value="{{lastname}}">
         <div class="error">{{error_lastname}} </div>  
       </div>
     </div>
@@ -67,65 +63,13 @@
       <div class="form-group">
         <div class="col-md-4 empty">
         </div>
-        <div class="col-md-4">
-          <input class="btn btn-md" type="submit">
+        <div>
+          <input class="btn btn-default" type="submit">
         </div>
       </div>
     </div>
 
-<div class="error">{{error_verify}} </div>
-
-    <!-- <table>
-      <tr>
-        <td class="label">
-          Username
-        </td>
-        <td>
-          <input type="text" name="username" value="{{username}}">
-        </td>
-        <td class="error">
-          {{error_username}}
-        </td>
-      </tr>
-
-      <tr>
-        <td class="label">
-          Password
-        </td>
-        <td>
-          <input type="password" name="password" value="">
-        </td>
-        <td class="error">
-          {{error_password}}
-        </td>
-      </tr>
-
-      <tr>
-        <td class="label">
-          Verify Password
-        </td>
-        <td>
-          <input type="password" name="verify" value="">
-        </td>
-        <td class="error">
-          {{error_verify}}
-        </td>
-      </tr>
-
-      <tr>
-        <td class="label">
-          Email (optional)
-        </td>
-        <td>
-          <input type="text" name="email" value="{{email}}">
-        </td>
-        <td class="error">
-          {{error_email}}
-        </td>
-      </tr>
-    </table>
-    <input type="submit"> -->
-    
+    <div class="error">{{error_verify}} </div>
   </form>
 </div>
 {% endblock %}

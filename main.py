@@ -2,7 +2,9 @@
 import os
 import re
 from string import letters
-
+import random
+import hmac
+import hashlib
 import webapp2
 import jinja2
 
@@ -13,7 +15,7 @@ jinja_env = jinja2.Environment(
 	loader = jinja2.FileSystemLoader(template_dir),
     autoescape = True)
 
-### ser Related Security - - Part I of II
+### User Related Security - - Part I of II
 # First - creating a secret text (Usually not kept in the same file)
 secret = 'du.Udslkjfd(98273klksdjf_)sdlkfsdf0ksjdfsdf)ssflk99'
 
@@ -94,7 +96,8 @@ def render_post(response, post):
 ### User Related Security - - Part II of II
 # function to make salt (makes a string of five letters)
 def make_salt(length = 5):
-    return ''.join(random.choice(letters) for x in xrange(length))
+    return ''.join(random.choice
+        (letters) for x in xrange(length))
 
 # takes in username, password, and salt, and returns (salt, hash version of all three)
 def make_pw_hash(name, pw, salt = None):
@@ -114,7 +117,7 @@ def valid_pw(name, password, h):
     return h == make_pw_hash(name, password, salt)
 
 
-### MainPage and About
+### MainPage Handler
 class MainPage(Handler):
     def get(self):
       self.render("front.html")
@@ -126,14 +129,20 @@ class MainPage(Handler):
         u = User.login(username, password)
         if u:
             self.login(u)
-            self.redirect('/blog')
+            self.redirect('/welcome')
         else:
             msg = 'Invalid Login'
             self.render('login.html', error = msg)  
 
+### Extra Page - Instruction Page Handler
 class About(Handler):
 	def get(self):
-		self.render("about.html")
+         if self.user:
+            x = "ogout"
+            self.render('about.html', userstatus = x)
+         else:
+            x = "ogin"
+            self.render('about.html', userstatus = x)
 
 ### Solution for multiple blog groups, or multiple user group
 # First - Multiple User Group
@@ -155,14 +164,33 @@ class Post(db.Model):
     content = db.TextProperty(required = True)
     created_time = db.DateTimeProperty(auto_now_add = True)
     modified_time = db.DateTimeProperty(auto_now = True)
+    ## Extra Entities
+    author = db.StringProperty()
+    like_count = db.IntegerProperty(default=0)
+    # Array containing all users who have liked a post
+    user_like = db.StringListProperty()
 
     def render(self):
         # automated creation of new lines on content
         self._render_text = self.content.replace('\n', '<br>')
         return render_str("post.html", p = self)
 
-# [Database II] for User
+# [Database II] for Comments
+class Comment(db.Model):
+    author = db.StringProperty(required=True)
+    content = db.TextProperty(required=True)
+    postid = db.StringProperty(required=True)
+    created_time = db.DateTimeProperty(auto_now_add=True)
+    modified_time = db.DateTimeProperty(auto_now=True)
+
+    def render(self):
+        self.__render_text = self.content.replace('\n', '<br>')
+        return render_str("comment.html", c=self)
+
+# [Database III] for User
 class User(db.Model):
+    firstname = db.StringProperty(required=True)
+    lastname=db.StringProperty(required=True)
     name = db.StringProperty(required=True)
     pw_hash = db.StringProperty(required=True)
     email = db.StringProperty()
@@ -186,10 +214,12 @@ class User(db.Model):
     @classmethod
     # Takes in multiple object and creates a user object
     # Doesn't actually stores in the Database, just creates it 
-    def register(cls, name, pw, email=None):
+    def register(cls, firstname, lastname, name, pw, email=None):
         # Creates a password Hash first
         pw_hash = make_pw_hash(name, pw)
         return User(parent=users_key(),
+                    firstname=firstname,
+                    lastname=lastname,
                     name=name,
                     pw_hash=pw_hash,
                     email=email)
@@ -206,9 +236,14 @@ class User(db.Model):
 # Class for Blog Front Page which shows given number of blog entry
 class BlogFront(Handler):
     def get(self):
-        posts = db.GqlQuery(
-        	"select * from Post order by created_time desc limit 5")
-        self.render('blog.html', posts = posts)
+        # Checks if Self.User is present, send it to front page
+        if self.user:
+            posts = db.GqlQuery(
+            "select * from Post order by created_time desc limit 10")
+            self.render('blog.html', posts = posts, username = self.user.firstname)
+        else:
+            # Else, send it to signup
+            self.redirect('/login')
 
 # Class for Posting a Blog Entry (Handler for rendering post)
 class PostPage(Handler):
@@ -231,17 +266,24 @@ class PostPage(Handler):
 # Handler Class for Handling New Post
 class NewPost(Handler):
     def get(self):
-        self.render("newpost.html")
+        if self.user:
+            self.render("newpost.html")
+        else:
+            self.redirect("/login")
 
     def post(self):
+
+        author = self.user.name
         subject = self.request.get('subject')
         content = self.request.get('content')
+        user_like = []
 
         if subject and content:
             p = Post(
             	parent = blog_key(), 
             	subject = subject, 
-            	content = content)
+            	content = content,
+                author = author)
             p.put()
 
             #making a string that identifies each post
@@ -258,16 +300,25 @@ class NewPost(Handler):
 # Handler Class for Editing Specific Post
 class EditPost(Handler):
     def get(self, post_id):
-    	### Something similar to def(get) from PostPage 
-    	key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
-        if post:
-        	self.render("editpost.html", post = post)
+        if self.user:
+            ### Something similar to def(get) from PostPage 
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
+            if self.user.name == post.author:
+                if post:
+                    self.render("editpost.html", post = post)
+                else:
+                    self.error(404)
+                    return
+            else:
+                self.write("You cannot Edit other User's posts!")
         else:
-            self.error(404)
-            return
+            return self.redirect('/login')
 
     def post(self, post_id):
+        if not self.user:
+            return self.redirect('/blog')
+
         subject = self.request.get('subject')
         content = self.request.get('content')
     
@@ -298,15 +349,25 @@ class EditPost(Handler):
 # Handler Class for Deleting Specific Post
 class DeletePost(Handler):
     def get(self, post_id):
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
-        if post:
-            self.render("deletepost.html", post = post)
+        if self.user:
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
+            if self.user.name == post.author:
+                if post:
+                    self.render("deletepost.html", post = post)
+                else:
+                    self.error(404)
+                    return
+            else:
+                self.write("You cannot Delete other User's posts!")
         else:
-            self.error(404)
-            return
+            return self.redirect('/login')
+
 
     def post(self, post_id):
+        if not self.user:
+            return self.redirect('/blog')
+            
         if "delete-post" in self.request.POST:
             delete_value = Post.get_by_id(int(post_id), parent=blog_key())
             if delete_value:
@@ -321,6 +382,14 @@ class DeletePost(Handler):
 
 
 ### User Validation
+# Valid Firstname
+FIRST_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+def valid_firstname(firstname):
+    return firstname and FIRST_RE.match(firstname)
+# Valid Lastname
+LAST_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+def valid_lastname(lastname):
+    return lastname and LAST_RE.match(lastname)
 # Valid Username
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 def valid_username(username):
@@ -329,7 +398,7 @@ def valid_username(username):
 PASS_RE = re.compile(r"^.{3,20}$")
 def valid_password(password):
     return password and PASS_RE.match(password)
-# Valif Email
+# Valid Email
 EMAIL_RE  = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
 def valid_email(email):
     return not email or EMAIL_RE.match(email)
@@ -345,6 +414,8 @@ class Signup(Handler):
 
     def post(self):
         have_error = False
+        firstname = self.request.get('firstname')
+        lastname = self.request.get('lastname')
         username = self.request.get('username')
         password = self.request.get('password')
         verify = self.request.get('verify')
@@ -354,6 +425,14 @@ class Signup(Handler):
                       email = email)
 
         ## Check to see if the input is valid or not, and present error 
+        if not valid_firstname(firstname):
+            params['error_firstname'] = "That's not a valid Name."
+            have_error = True
+
+        if not valid_lastname(lastname):
+            params['error_lastname'] = "That's not a valid Last Name."
+            have_error = True       
+
         if not valid_username(username):
             params['error_username'] = "That's not a valid username."
             have_error = True
@@ -374,16 +453,18 @@ class Signup(Handler):
         else:
             # look up if the username already exists
             ## alternate code??## = User.get_by_id(user, parent=users_key())
-            u = User.by_name(self.username)            
+            u = User.by_name(username)            
             if u:
                 message = 'Username already exists, Please choose a different username'
                 self.render('signup.html', error_username = message)
             else:
                 # Resister the User
                 u = User.register(
-                    self.username, 
-                    self.password, 
-                    self.email)
+                    firstname,
+                    lastname,
+                    username, 
+                    password, 
+                    email)
                 # Put the user Object
                 u.put()
                 # Call the Login Function - - Sets the Cookie function
@@ -403,7 +484,7 @@ class Login(Handler):
         u = User.login(username, password)
         if u:
             self.login(u)
-            self.redirect('/blog')
+            self.redirect('/welcome')
         else:
             msg = 'Invalid Login'
             self.render('login.html', error = msg)
@@ -412,13 +493,13 @@ class Login(Handler):
 class Logout(Handler):
     def get(self):
         self.logout()
-        self.redirect('/blog')
+        self.redirect('/')
 
 class Welcome(Handler):
     def get(self):
         # Checks if Self.User is present, send it to front page
         if self.user:
-            self.render('front.html', username = self.user.name)
+            self.render('welcome.html', username = self.user.name)
         else:
             # Else, send it to signup
             self.redirect('/signup')

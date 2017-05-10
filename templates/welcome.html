@@ -1,9 +1,18 @@
 {% extends "base.html" %}
-{% block title %}Welcome{% endblock %}
-
+{% block navbar %}
+<li><a href="/logout" data-scroll>Logout</a></li>
+{% endblock %}
 {% block content %}
 <div>
-	<p>jkhgkjhgjh</p>
+	<h1> Welcome {{username}} </h1>
 </div>
+<div>
+	<br>
+	<br>
+	<h4 class="text-center"> Current Project </h4>
+	<h4 class="text-center"> - Multi User Blog -</h4>
+</div>
+
+
 
 {% endblock %}
