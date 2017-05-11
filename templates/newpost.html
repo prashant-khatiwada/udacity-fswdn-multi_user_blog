@@ -14,11 +14,6 @@
           <label for="Subject">Subject</label>
           <input type="text" class="form-control" name="subject" value="{{subject}}" id="Subject">
       </div>
-
-<!--       <div class="col-md-12">
-        <div id="toolbar"></div>
-      </div> -->
-
       <div class="col-md-12 form-group">
         <br>
           <label for="content">Body</label>
@@ -32,13 +27,13 @@
       </div>
       <div class="col-md-12">
         <input class="btn btn-default btn-sm" id="save_newpost" type="submit" value="Submit">
+        <button class="btn btn-default btn-sm"> <a href="/blog">Cancel</a></button>
       </div>
     </form>
   </div>
 </div>
 
 <script>
-
   var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'],
   ['blockquote', 'code-block'],

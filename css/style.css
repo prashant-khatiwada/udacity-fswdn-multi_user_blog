@@ -33,8 +33,7 @@ body {
 
 /*Main Body*/
 section {
-    border-bottom: 1px solid #999;
-    min-height: 800px;
+    min-height: 900px;
     padding-top: 100px;
     width: 100%;
 }
@@ -89,17 +88,12 @@ input[type=submit] {
 /*Post Page*/
 .post-heading {
     position: relative;
-    border-bottom: 3px solid #666;
+    border-bottom: 1px solid #666;
 }
 
 .post-title {
     font-size: 24px;
     text-transform: uppercase;
-}
-
-.post {
-    margin-right: 24px;
-    margin-left: 24px;
 }
 
 .post-date {

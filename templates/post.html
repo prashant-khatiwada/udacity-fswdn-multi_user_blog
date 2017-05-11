@@ -8,7 +8,7 @@
           <a href="/blog/postcomment/{{p.key().id()}}" >{{p.subject}}</a>
         </div>
         <div class="post-username">
-          Posted by: {{p.author}}
+          Author: {{p.author}}
         </div>
         <div class="post-date">
           {{p.created_time.strftime("%Y, %b %d")}}
@@ -17,19 +17,6 @@
       <div class="post-content">
         <div>
           {{p._render_text | safe}}
-        </div>
-        <div class="like-group">
-          <div class="like-unicode-icon">
-            <p> &#128077; {{p.like_count}} </p>
-          </div>
-          <form method="post" action="/blog/{{p.key().id()}}/like">
-            <input class="btn btn-default" type="submit" name="like-button" value="Like" id="{{p.key().id()}}"> 
-          </form>
-          <div>
-            <p>
-              {{error_like}}
-            </p>
-          </div>
         </div>
       </div>
     </div>

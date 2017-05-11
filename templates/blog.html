@@ -10,15 +10,14 @@
 	<h1>Blog</h1>
 	<h3>Welcome back, {{username}}</h3>
 </div>
-<div id="blog_btns">
+
+<div class="col-md-12" id="blog_btns">
 	<a  type="button" class="btn btn-default btns_right_float" href="/blog/newpost">New Post</a>
 </div>
-</div>
+<div class="col-md-12">
 {% for p in posts %}
 {{ p.render() | safe }}
-<div>
-	<br> <br>
-</div>
+<br>
 {% endfor %}
-
+</div>
 {% endblock %}

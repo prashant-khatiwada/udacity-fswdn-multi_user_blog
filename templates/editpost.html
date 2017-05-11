@@ -20,7 +20,8 @@
       <div class="col-md-12 form-group">
           <br>
           <label for="content">Body</label>
-          <div id="editor">
+          <div id="toolbar"> </div>
+          <div>
           <textarea class="form-control" name="content" rows="5">{{post.content}}</textarea>
           </div>
       </div>
@@ -33,23 +34,4 @@
       </div>
     </form>
   </div>
-<script type="text/javascript">
-
-  var toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'],
-  ['blockquote', 'code-block'],
-  [{'list':'ordered'}, {'list':'bullet'}],
-  ['link', 'image', 'video', 'formula']];
-
-
-  var quill = new Quill ('#editor',
-  {
-    modules: {toolbar:toolbarOptions},
-    theme: 'snow'});
-
-  $('#save_editpost').click(
-    function() {
-    var editpost = quill.getContents();}
-    );
-</script>
 {% endblock %}

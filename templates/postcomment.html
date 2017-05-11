@@ -2,23 +2,34 @@
 {% block navbar %}
 <li><a href="/logout" data-scroll>Logout</a></li>
 {% endblock %}
-{% block content %}
-<div class="col-md-12">	
-	<div class="btn-group pull-right" id="post_btns">
-		<a  type="button" method="get" class="btn btn-default" href="/blog/editpost/{{post.key().id()}}">Edit</a>
-		<a  type="button" class="btn btn-danger" href="/blog/deletepost/{{post.key().id()}}">Delete</a>
-	</div>
+{% block content %}	
+<div class="btn-group col-md-2 col-md-offset-5" id="post_btns">
+	<a  type="button" method="get" class="btn btn-default" href="/blog/editpost/{{post.key().id()}}">Edit</a>
+	<a  type="button" class="btn btn-danger" href="/blog/deletepost/{{post.key().id()}}">Delete</a>
 </div>
+<div>
 {{post.render() | safe}}
-<hr>
+<br>
+</div>
+<div class="like-group col-md-4 col-md-offset-4">
+  <div class="like-unicode-icon">
+    <p> &#128077; {{post.like_count}} </p>
+  </div>
+  <form method="post" action="/blog/{{post.key().id()}}/like">
+    <input class="btn btn-default" type="submit" name="like-button" value="Like" id="{{post.key().id()}}">
+    <input class="btn btn-default" type="submit" name="like-button" value="Twitter" disabled>
+    <input class="btn btn-default" type="submit" name="like-button" value="Email" disabled>
+    <input class="btn btn-default" type="submit" name="like-button" value="Print" disabled>   
+  </form>
+</div>
 <div class="col-md-12">
 	{% for c in comments %}
 	{{c.render() | safe}}
 	{% endfor %}
 </div>
 <hr>
+<div>
 <h3 class="text-center">New Comment</h3>
-
 <form class="col-md-12 form-group" method="post">
 	<!-- <textarea name = "content">{{content}}</textarea> -->
 	<textarea class="form-control" name="content" rows="2" id="editor">{{content}} </textarea>
@@ -26,5 +37,5 @@
 	<input class="btn btn-default" type="submit" value="Submit" name="submit">
 	<a href="/blog/{{post.key().id()}}"><button class="btn btn-default">Cancel</button></a>
 </form>
-	
+</div>	
 {% endblock %}

@@ -399,14 +399,14 @@ class LikePost(Handler):
                     post.like_count -= 1
                     post.put()
                     time.sleep(0.2)
-                    self.redirect("/blog/")
+                    self.redirect('/blog/postcomment/%s' % post_id)
                 else:
                     post.user_like.append(self.user.name)
                     post.like_count += 1
                     post.put()
                     # Putting a Time Delay in Python Script
                     time.sleep(0.2)
-                    self.redirect("/blog")
+                    self.redirect('/blog/postcomment/%s' % post_id)
             if self.user.name == post.author:
                 message = "You cannot like your own post."
                 ## self.redirect('/blog', error_like = message)

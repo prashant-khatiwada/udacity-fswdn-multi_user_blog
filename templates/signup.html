@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Getting Started{% endblock %}
-
+{% block navbar %}
+{% endblock %}
 
 
 {% block content %}
@@ -55,21 +56,19 @@
         <input name="verify" placeholder="Confirm your Password" class="form-control input-md" type="password" value="">
         <span class="help-block error">{{error_verify}}</span>
         <div class="error">{{error_verify}} </div>
-        <p> Already Registered? <a class="user_call" data-toggle="modal" data-target="#user_login">&#128100;Log In</a> </p>  
+        <p> Already Registered? <a href="/login">&#128100;Log In</a> </a> </p>  
       </div>
     </div>
     <!-- Buttons -->
-    <div class="col-md-12">
+    <div class="col-md-4 col-md-offset-4">
       <div class="form-group">
-        <div class="col-md-4 empty">
-        </div>
         <div>
           <input class="btn btn-default" type="submit">
+          <button class="btn btn-default btn-sm"> <a href="/">Cancel</a></button>
         </div>
       </div>
-    </div>
 
-    <div class="error">{{error_verify}} </div>
+    </div>
   </form>
 </div>
 {% endblock %}
