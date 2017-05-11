@@ -4,8 +4,7 @@
 <li><a href="/logout" data-scroll>Logout</a></li>
 {% endblock %}
 {% block content %}
-<div class="rows">
-  <div class="col-md-12">
+  <div>
     <h1>Edit Post</h1>
   </div>
   <div class="col-md-12">
@@ -16,11 +15,14 @@
       </div>
       <div class="col-md-12">
         <div id="toolbar"></div>
+        
       </div>
       <div class="col-md-12 form-group">
           <br>
           <label for="content">Body</label>
-          <textarea class="form-control" name="content" rows="5" id="editor">{{post.content}}</textarea>
+          <div id="editor">
+          <textarea class="form-control" name="content" rows="5">{{post.content}}</textarea>
+          </div>
       </div>
       <div class="error">{{error}}</div>
       <div class="col-md-12">
@@ -31,8 +33,7 @@
       </div>
     </form>
   </div>
-</div>
-<!-- <script type="text/javascript">
+<script type="text/javascript">
 
   var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'],
@@ -46,7 +47,9 @@
     modules: {toolbar:toolbarOptions},
     theme: 'snow'});
 
-  $('#save_editpost').click(function() {
-    var newpost = quill.getContents();});
-</script> -->
+  $('#save_editpost').click(
+    function() {
+    var editpost = quill.getContents();}
+    );
+</script>
 {% endblock %}

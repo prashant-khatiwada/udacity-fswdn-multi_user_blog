@@ -1,24 +1,30 @@
 <div>
-	<div class="comment">
-		<div class="comment-heading">
-			<div class="post-date">
-				{{c.created_time.strftime("%Y, %b %d")}}
+	<div class="comment bg-info">
+		<div class="container-fluid ">
+			<div class="col-md-4">
+				<div>
+					<br>
+					<p> Comment by: <h4>{{c.author}}</h4> </p>
+				</div>
+				<div class="small">
+					Created On: {{c.created_time.strftime("%Y, %b %d")}}
+					<br>
+					Last Modified: {{c.modified_time.strftime("%Y, %b %d")}}
+				</div>
+				<div>
+					<a href="/blog/editcomment/{{c.key().id()}}">Modify</a>
+				</div>
+				<br>
 			</div>
-			<div class="post-by">
-				Comment by: {{c.author}}
+			<div class="col-md-8">
+				<br>
+				<p>{{c.content}}</p>
 			</div>
-			<div>
-				{{c.content}}
-			</div>
-			<div>
-				{{c.modified_time}}
-			</div>
-			</div>
+		</div>
+		<hr>
 		<div class="comment-content">
 			{{c._render_text | safe}}
 		</div>
-		<div>
-			<a href="/blog/editcomment/{{c.key().id()}}">Modify</a>
-		</div>
+
 	</div>
 </div>

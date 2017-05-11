@@ -373,6 +373,7 @@ class DeletePost(Handler):
             delete_value = Post.get_by_id(int(post_id), parent=blog_key())
             if delete_value:
                 delete_value.delete()
+                time.sleep(0.2)
                 return self.redirect("/blog")
             else:
                 return self.error(404)

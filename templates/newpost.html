@@ -15,13 +15,14 @@
           <input type="text" class="form-control" name="subject" value="{{subject}}" id="Subject">
       </div>
 
-      <div class="col-md-12">
+<!--       <div class="col-md-12">
         <div id="toolbar"></div>
-      </div>
+      </div> -->
 
       <div class="col-md-12 form-group">
         <br>
           <label for="content">Body</label>
+          <div id="toolbar"> </div>
           <textarea class="form-control" name="content" rows="5" id="editor">{{content}} </textarea>
       </div>
 
@@ -36,20 +37,23 @@
   </div>
 </div>
 
-<script type="text/javascript">
+<script>
 
   var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'],
   ['blockquote', 'code-block'],
   [{'list':'ordered'}, {'list':'bullet'}],
-  ['link', 'image', 'video', 'formula']];
-
+  ['link', 'image', 'video', 'formula']
+  ];
 
   var quill = new Quill ('#editor',
-                        {modules: {toolbar:toolbarOptions},
-                          theme: 'snow'});
+                        {modules: {
+                          toolbar:toolbarOptions
+                        },
+                        theme: 'snow'});
 
   $('#save_newpost').click(function() {
     var newpost = quill.getContents();});
 </script>
+
 {% endblock %}

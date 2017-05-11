@@ -1,17 +1,30 @@
 {% extends "base.html" %}
+{% block navbar %}
+<li><a href="/logout" data-scroll>Logout</a></li>
+{% endblock %}
 {% block content %}
-	{{post.render() | safe}}
-	<hr>
-	<div class="col-md-12">
-		{% for c in comments %}
-		{{c.render() | safe}}
-		{% endfor %}
+<div class="col-md-12">	
+	<div class="btn-group pull-right" id="post_btns">
+		<a  type="button" method="get" class="btn btn-default" href="/blog/editpost/{{post.key().id()}}">Edit</a>
+		<a  type="button" class="btn btn-danger" href="/blog/deletepost/{{post.key().id()}}">Delete</a>
 	</div>
-	<hr>
-	<h3 class="text-center">New Comment</h3>
-	<form method="post">
-		<textarea name = "content">{{content}}</textarea>
-		<input type="submit" name="submit" value="Submit">
-	</form>
-		<a href="/blog/{{post.key().id()}}"><button>Cancel</button></a>
+</div>
+{{post.render() | safe}}
+<hr>
+<div class="col-md-12">
+	{% for c in comments %}
+	{{c.render() | safe}}
+	{% endfor %}
+</div>
+<hr>
+<h3 class="text-center">New Comment</h3>
+
+<form class="col-md-12 form-group" method="post">
+	<!-- <textarea name = "content">{{content}}</textarea> -->
+	<textarea class="form-control" name="content" rows="2" id="editor">{{content}} </textarea>
+	<br>
+	<input class="btn btn-default" type="submit" value="Submit" name="submit">
+	<a href="/blog/{{post.key().id()}}"><button class="btn btn-default">Cancel</button></a>
+</form>
+	
 {% endblock %}
