@@ -1,18 +1,25 @@
 {% extends "base.html" %}
+{% block title %}Edit Comment{% endblock %}
+{% block navbar %}
+<li><a href="/logout" data-scroll>Logout</a></li>
+{% endblock %}
 {% block content %}
-	
-<h2>Edit Comment</h2>
-<form method="post">
-	<label>
-		<div>Content</div>
-		<textarea name="content">{{comment.content}}</textarea>
-	</label>
 
-	<div class="error">{{error}}</div>
-
-	<input type="submit" name="update" value="Update">
-	<input type="submit" name="delete" value="Delete">
+<h1>Edit Comment</h1>
+<form class="text-center" method="post">
+	<div class="col-md-12">
+	<textarea class="form-control" rows='2' name="content">{{comment.content}}</textarea>
+	</div>
+	<div class="col-md-12">
+		<br>
+	</div>
+	<div class="col-md-12 error">{{error}}</div>
+	<div class="col-md-12">
+		<input class="btn btn-default" type="submit" name="update" value="Update">
+		<input class="btn btn-danger" type="submit" name="delete" value="Delete">
+		<input class="btn btn-default" type="submit" name="cancel" value="Cancel">
+	</div>
 </form>
-	<br>
-	<a href="/blog/{{comment.postid}}"><button>Cancel</button></a>
+<br>
+
 {% endblock %}
