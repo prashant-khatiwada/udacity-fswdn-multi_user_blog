@@ -75,7 +75,7 @@ class EditComment(Handler):
         key = db.Key.from_path('Comment', int(comment_id))
         comment = db.get(key)
         # User Authorization Check
-        if self.user.name == comment.author:
+        if comment and self.user.name == comment.author:
                 # Update Comment
             if "update" in self.request.POST:
                 if content:

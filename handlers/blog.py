@@ -135,23 +135,29 @@ class DeletePost(Handler):
             return self.redirect('/login')
 
     def post(self, post_id):
-        if not self.user:
-            return self.redirect('/blog')
-
-        key = db.Key.from_path('Post', int(post_id), parent=blog_key())
-        post = db.get(key)
-        # User Authorization Check
-        if self.user.name == post.author:
-            if "delete-post" in self.request.POST:
-                delete_value = Post.get_by_id(int(post_id), parent=blog_key())
-                if delete_value:
-                    delete_value.delete()
-                    time.sleep(0.2)
-                    return self.redirect("/blog")
+        # User Login Check
+        if self.user:
+            key = db.Key.from_path('Post', int(post_id), parent=blog_key())
+            post = db.get(key)
+            # Author Check
+            if self.user.name == post.author:
+                # Post Check
+                if post:
+                    if "delete-post" in self.request.POST:
+                        delete_value = Post.get_by_id(
+                            int(post_id), parent=blog_key())
+                        if delete_value:
+                            delete_value.delete()
+                            time.sleep(0.2)
+                            return self.redirect("/blog")
+                        else:
+                            return self.error(404)
+                    if "cancel-delete" in self.request.POST:
+                        return self.redirect("/blog")
                 else:
-                    return self.error(404)
-
-            if "cancel-delete" in self.request.POST:
-                return self.redirect("/blog")
+                    self.error(404)
+                    return
+            else:
+                self.write("You cannot Delete other User's posts!")
         else:
-            self.write("You cannot Delete other User's posts!")
+            return self.redirect('/login')
