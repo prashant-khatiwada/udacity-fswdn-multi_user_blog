@@ -17,10 +17,8 @@ jinja_env = jinja2.Environment(
     autoescape=True)
 
 # User Related Security - - Part I of II
-# First - creating a secret text (Usually not kept in the same file)
+"""creating a secret text (Usually not kept in the same file)"""
 secret = 'du.Udslkjfd(98273klksdjf_)sdlkfsdf0ksjdfsdf)ssflk99'
-
-# making a secure value out of a given value using HMAC (using hexdigest)
 
 
 def make_secure_val(val):
@@ -579,39 +577,6 @@ class EditComment(Handler):
             self.write("You can't edit other User's comments!")
 
 
-# User Validation
-# Valid Firstname
-FIRST_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-
-
-def valid_firstname(firstname):
-    return firstname and FIRST_RE.match(firstname)
-# Valid Lastname
-LAST_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-
-
-def valid_lastname(lastname):
-    return lastname and LAST_RE.match(lastname)
-# Valid Username
-USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
-
-
-def valid_username(username):
-    return username and USER_RE.match(username)
-# Valid Password
-PASS_RE = re.compile(r"^.{3,20}$")
-
-
-def valid_password(password):
-    return password and PASS_RE.match(password)
-# Valid Email
-EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
-
-
-def valid_email(email):
-    return not email or EMAIL_RE.match(email)
-
-
 # User Related - signup, login, and welcome screen
 # Signup Handler
 class Signup(Handler):
@@ -631,6 +596,31 @@ class Signup(Handler):
 
         params = dict(username=username,
                       email=email)
+        # User Validation
+        FIRST_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+
+        def valid_firstname(firstname):
+            return firstname and FIRST_RE.match(firstname)
+
+        LAST_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+
+        def valid_lastname(lastname):
+            return lastname and LAST_RE.match(lastname)
+
+        USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
+
+        def valid_username(username):
+            return username and USER_RE.match(username)
+
+        PASS_RE = re.compile(r"^.{3,20}$")
+
+        def valid_password(password):
+            return password and PASS_RE.match(password)
+
+        EMAIL_RE = re.compile(r'^[\S]+@[\S]+\.[\S]+$')
+
+        def valid_email(email):
+            return not email or EMAIL_RE.match(email)
 
         # Check to see if the input is valid or not, and present error
         if not valid_firstname(firstname):
